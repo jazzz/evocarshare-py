@@ -1,0 +1,5 @@
+{
+    "code": "invalidToken",
+    "message": "Invalid JWT token",
+    "transactionId": "#TRANSACT_ID"
+}
