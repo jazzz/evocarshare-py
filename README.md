@@ -3,7 +3,7 @@
 ![https://github.com/jazzz/evocarshare-py/actions/workflows/main-build.yml/badge.svg](https://github.com/jazzz/evocarshare-py/actions/workflows/main-build.yml/badge.svg)
 ![Status](https://img.shields.io/badge/Project_status-Alpha-orange)
 
-Evocarshare is a module for accessing the Evo Car Share data api which streamlines token management, and queries.
+Evocarshare is a module for accessing the data api of the Evo CarShare service which streamlines token management, and queries.
 
 # Installing
 
