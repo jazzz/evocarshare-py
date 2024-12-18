@@ -92,12 +92,12 @@ class EvoApi:
             data = await self._parse_response(resp)
             return [Vehicle.from_dict(d) for d in data]
 
-    async def get_vehicles_within(self, km: float, of: GpsCoord) -> "Iterable[Vehicle]":
-        return self._filter_vehicles_within(km, of, await self.get_vehicles())
+    async def get_vehicles_within(self, meters: float, of: GpsCoord) -> "Iterable[Vehicle]":
+        return self._filter_vehicles_within(meters, of, await self.get_vehicles())
 
     @staticmethod
-    def _filter_vehicles_within(km: float, of: GpsCoord, vehicles: Iterable[Vehicle]) -> Iterable[Vehicle]:
+    def _filter_vehicles_within(meters: float, of: GpsCoord, vehicles: Iterable[Vehicle]) -> Iterable[Vehicle]:
         def close(v: RangedVehicle) -> bool:
-            return v.distance <= km
+            return v.distance <= meters
 
         return filter(close, [v.to_ranged(of) for v in vehicles])
