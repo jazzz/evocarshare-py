@@ -41,8 +41,6 @@ async with aiohttp.ClientSession() as client_session:
         print(v)
 ```
 
-### Keys
-
 
 ## Quick Start (Dev Containers)
 
