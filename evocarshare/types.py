@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from decimal import Decimal, getcontext
 from typing import NamedTuple, Self
 
 from haversine.haversine import Unit, haversine
@@ -28,14 +27,11 @@ class GpsCoord:
     latitude: float
     longitude: float
 
-    def distanceTo(self, other: GpsCoord) -> Decimal:
-        """Return the distance between two GpsCoords measured in kilometers."""
+    def distanceTo(self, other: GpsCoord) -> int:
+        """Return the distance between two GpsCoords measured in meters."""
 
-        dist: float = haversine(self.to_tuple(), other.to_tuple(), unit=Unit.KILOMETERS)
-
-        # round to ,eter accuracy
-        getcontext().prec = 4
-        return round(Decimal(dist), 3)
+        dist: float = haversine(self.to_tuple(), other.to_tuple(), unit=Unit.METERS)
+        return int(dist)
 
     def __iter__(self):
         yield self.latitude
@@ -91,7 +87,7 @@ class Vehicle:
             is_charging=d[STATUS]["isCharging"],
         )
 
-    def distanceFrom(self, gps: GpsCoord) -> Decimal:
+    def distanceFrom(self, gps: GpsCoord) -> int:
         return self.location.distanceTo(gps)
 
     def to_ranged(self, gps: GpsCoord) -> RangedVehicle:
@@ -102,7 +98,7 @@ class RangedVehicle(Vehicle):
     """A Vehicle which contains a distance to a given GpsCoord"""
 
     _instance: Vehicle
-    distance: Decimal
+    distance: int
 
     def __init__(self, vehicle: Vehicle, ref_coord: GpsCoord) -> None:
         # This class uses both inheritance and composition.
