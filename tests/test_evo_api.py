@@ -67,17 +67,23 @@ def test_range_filter():
     home = (49.279844999999995, -123.10200666666667)
 
     num_cases = 100
+    spacing = 5
 
-    gps = [GpsCoord(*inverse_haversine(home, i / 200, 0, unit=Unit.KILOMETERS)) for i in range(num_cases)]  # pyright: ignore [reportUnknownArgumentType]
+    gps = [GpsCoord(*inverse_haversine(home, i * spacing, 0, unit=Unit.METERS)) for i in range(num_cases)]  # pyright: ignore [reportUnknownArgumentType]
+
+    for x in gps:
+        print(x)
+
     vehicles = [Vehicle(f"ID:{i:3}", "Car", f"EVO{i:3}", g, 0, False) for i, g in enumerate(gps)]
 
     assert len(vehicles) == num_cases
 
     dist_0 = EvoApi._filter_vehicles_within(0, GpsCoord(*home), vehicles)
+
     assert len(list(dist_0)) == 1
 
-    dist_10 = EvoApi._filter_vehicles_within(0.01, GpsCoord(*home), vehicles)
+    dist_10 = EvoApi._filter_vehicles_within(10, GpsCoord(*home), vehicles)
     assert len(list(dist_10)) == 3
 
-    dist_100 = EvoApi._filter_vehicles_within(1, GpsCoord(*home), vehicles)
-    assert len(list(dist_100)) == len(vehicles)
+    dist_500 = EvoApi._filter_vehicles_within(500, GpsCoord(*home), vehicles)
+    assert len(list(dist_500)) == len(vehicles)
