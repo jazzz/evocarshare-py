@@ -5,17 +5,17 @@
 
 Evocarshare is a module for accessing the data api of the Evo CarShare service which streamlines token management, and queries.
 
-# Installing
+## Installing
 
 ```
 pip install evocarshare
 ```
 
-# Supported Versions
+## Supported Versions
 
 - Python 3.11+
 
-# Usage
+## Usage
 
 Fetch all vehicles with range of a location
 ```python
@@ -41,6 +41,7 @@ async with aiohttp.ClientSession() as client_session:
         print(v)
 ```
 
+
 ## Quick Start (Dev Containers)
 
 This project supports containerized development via [devcontainers](https://code.visualstudio.com/docs/remote/containers). From Visual Studio Code select `Devcontainers: Reopen in Container` from the command palette
@@ -62,6 +63,13 @@ Run tests
 ```
  .venv/bin/pytest
 ```
+
+## Thanks
+This project makes heavy use of the reverse engineering work by @jeremy21212121 and @jack-madison.
+
+[evofinder.ca](https://github.com/jeremy21212121/evo-client-nuxt) - Unoffical web interface for Evo
+
+[EvoAppScrape](https://github.com/jack-madison/Evo-Car-Share-App-Scrape/blob/main/evo_app_scrape.py) - Script to extract vehicle data to `csv`
 
 ## Contributing
 Contributions via PR are welcome.
