@@ -17,7 +17,8 @@ class CredentialBundle:
 
 class Token(NamedTuple):
     token: str
-    valid_to: float
+    issued_at: float
+    expires_in: int
 
 
 @dataclass
