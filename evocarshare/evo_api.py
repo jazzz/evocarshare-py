@@ -34,7 +34,7 @@ class EvoApi:
 
         self._request_timeout = request_timeout
 
-        _LOGGER.warning("Initialize EvoApi v2")
+        _LOGGER.warning("Initialize EvoApi v3")
 
     async def _async_get_token(self) -> tuple[str, int]:
         data = {
@@ -73,11 +73,11 @@ class EvoApi:
             return False
 
         _LOGGER.debug(
-            f"ValidateToken: Now:{(now or time.time())} > Issued:{token.issued_at} + Exp:{token.expires_in}  == {(now or time.time()) > token.issued_at + token.expires_in}"
+            f"ValidateToken: Now:{(now or time.time())} < Issued:{token.issued_at} + Exp:{token.expires_in}  == {(now or time.time()) < (token.issued_at + token.expires_in)}"
         )
 
         # TODO: Improve time comparision safety
-        return (now or time.time()) < token.issued_at + token.expires_in
+        return (now or time.time()) < (token.issued_at + token.expires_in)
 
     def build_headers(self, token: Token) -> dict[str, str]:
         return {
