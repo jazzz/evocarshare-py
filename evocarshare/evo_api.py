@@ -11,6 +11,7 @@ from .exceptions import EvoApiCallError, EvoProgramError
 from .types import CredentialBundle, GpsCoord, RangedVehicle, Token, Vehicle
 
 _LOGGER = logging.getLogger(__name__)
+_LOGGER.setLevel(logging.DEBUG)
 
 # DictKeys
 ACCESS_TOKEN = "access_token"  # noqa: S105
@@ -33,7 +34,7 @@ class EvoApi:
 
         self._request_timeout = request_timeout
 
-        _LOGGER.warning("Initialize EvoApi")
+        _LOGGER.warning("Initialize EvoApi v2")
 
     async def _async_get_token(self) -> tuple[str, float]:
         data = {
