@@ -70,6 +70,10 @@ class EvoApi:
     def _validate_token(token: Token | None, now: float | None = None) -> bool:
         if not token:
             return False
+
+        _LOGGER.debug(
+            f"ValidateToken: Now:{(now or time.time())} > ValidTo:{token.valid_to}  == {(now or time.time()) > token.valid_to}"
+        )
         return (now or time.time()) > token.valid_to
 
     def build_headers(self, token: Token) -> dict[str, str]:
@@ -95,6 +99,7 @@ class EvoApi:
     async def get_vehicles(self) -> "Iterable[Vehicle]":
         token = await self.get_token()
         headers = self.build_headers(token)
+        _LOGGER.debug(f"fetching Vehicles ->  {token}    {headers}")
         async with self._client_session.get(self.URL_VEHCILES, headers=headers) as resp:
             data = await self._parse_response(resp)
             return [Vehicle.from_dict(d) for d in data]
