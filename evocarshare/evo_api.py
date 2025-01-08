@@ -21,12 +21,19 @@ class EvoApi:
     URL_OAUTH: str = "https://java-us01.vulog.com/auth/realms/BCAA-CAYVR/protocol/openid-connect/token/"
     URL_VEHCILES: str = "https://java-us01.vulog.com/apiv5/availableVehicles/fc256982-77d1-455c-8ab0-7862c170db6a"
 
-    def __init__(self, client_session: ClientSession, credentials: CredentialBundle, request_timeout: int = 10) -> None:
+    def __init__(
+        self,
+        client_session: ClientSession,
+        credentials: CredentialBundle,
+        request_timeout: int = 10,
+    ) -> None:
         self._token = None
         self._client_session = client_session
         self.credentials = credentials
 
         self._request_timeout = request_timeout
+
+        _LOGGER.warning("Initialize EvoApi")
 
     async def _async_get_token(self) -> tuple[str, float]:
         data = {
@@ -80,9 +87,9 @@ class EvoApi:
     async def _parse_response(self, resp: ClientResponse, ref_coord: GpsCoord | None = None) -> Any:
         data = await resp.json()
         if resp.status != 200:
+            _LOGGER.warning("ApiCallData(%s):%s", resp.url, data)
             raise EvoApiCallError(status=resp.status, url=str(resp.url), payload=await resp.json())
 
-        _LOGGER.debug("ApiCallData(%s):%s", resp.url, data)
         return data
 
     async def get_vehicles(self) -> "Iterable[Vehicle]":
