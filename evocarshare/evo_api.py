@@ -36,7 +36,7 @@ class EvoApi:
 
         _LOGGER.warning("Initialize EvoApi v2")
 
-    async def _async_get_token(self) -> tuple[str, float]:
+    async def _async_get_token(self) -> tuple[str, int]:
         data = {
             "grant_type": "client_credentials",
             "scope": "",
@@ -60,8 +60,8 @@ class EvoApi:
         if not self._validate_token(self._token):
             token = None
             _LOGGER.debug("No valid token - fetching")
-            token, valid_for = await self._async_get_token()
-            self._token = Token(token, time.time() + valid_for - 1)
+            token, expires_in = await self._async_get_token()
+            self._token = Token(token, time.time(), expires_in)
 
         if not self._token:
             raise EvoProgramError("expectNotNull", self._token)  # TODO Add retry logic
@@ -73,9 +73,11 @@ class EvoApi:
             return False
 
         _LOGGER.debug(
-            f"ValidateToken: Now:{(now or time.time())} > ValidTo:{token.valid_to}  == {(now or time.time()) > token.valid_to}"
+            f"ValidateToken: Now:{(now or time.time())} > Issued:{token.issued_at} + Exp:{token.expires_in}  == {(now or time.time()) > token.issued_at + token.expires_in}"
         )
-        return (now or time.time()) > token.valid_to
+
+        # TODO: Improve time comparision safety
+        return (now or time.time()) < token.issued_at + token.expires_in
 
     def build_headers(self, token: Token) -> dict[str, str]:
         return {
