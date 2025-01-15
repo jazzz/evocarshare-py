@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "evocarshare"
-version = "0.0.1"
+version = "0.0.2"
 description = "Access data from the Evo Car Share api"
 authors = ["Jazzz <473256+jazzz@users.noreply.github.com>"]
 repository = "https://github.com/jazzz/evocarshare-py"
