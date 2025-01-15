@@ -5,7 +5,7 @@ from typing import NamedTuple, Self
 
 from haversine.haversine import Unit, haversine
 
-from .typing import ApiVehicleData
+from .api_typing import ApiVehicleData
 
 
 @dataclass

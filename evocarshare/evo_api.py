@@ -7,8 +7,8 @@ from typing import Any
 
 from aiohttp import ClientResponse, ClientSession
 
+from .data_types import CredentialBundle, GpsCoord, RangedVehicle, Token, Vehicle
 from .exceptions import EvoApiCallError, EvoProgramError
-from .types import CredentialBundle, GpsCoord, RangedVehicle, Token, Vehicle
 
 _LOGGER = logging.getLogger(__name__)
 
